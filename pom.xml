@@ -28,12 +28,12 @@
 		<snapshotRepository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/garganttua/pegasus-server-plugin-maker</url>
+			<url>https://maven.pkg.github.com/garganttua/pegasus-server-distribution-maker</url>
 		</snapshotRepository>
 		<repository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/garganttua/pegasus-server-plugin-maker</url>
+			<url>https://maven.pkg.github.com/garganttua/pegasus-server-distribution-maker</url>
 		</repository>
 	</distributionManagement>
 	
