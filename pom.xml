@@ -102,7 +102,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>18</source>
-					<release>18</release>
 					<target>18</target>
 				</configuration>
 			</plugin>

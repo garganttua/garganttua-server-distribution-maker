@@ -1,18 +1,9 @@
 package com.gtech.pegasus.server.bundle.maven.plugin;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
@@ -22,11 +13,12 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
-import net.lingala.zip4j.core.ZipFile;
 import com.google.common.io.Files;
 import com.gtech.pegasus.core.deployment.artefacts.PGApplicationConfiguration;
 import com.gtech.pegasus.core.execution.PGApplicationEngine;
 import com.gtech.pegasus.core.update.PGApplicationDeploymentManager;
+
+import net.lingala.zip4j.core.ZipFile;
 
 
 /**
@@ -188,7 +180,6 @@ public class PGPluginMojo extends AbstractMojo {
 					e.printStackTrace();
 				}
 			}
-
 		}
 		
 		
@@ -203,7 +194,11 @@ public class PGPluginMojo extends AbstractMojo {
 			engine.readFolder(libDir, false, false);
 			engine.readFolder(confDir, false, false);
 			
-			engine.generateManifest(this.mainManifestName, true, this.mainClass);
+			String temp = confDir + File.separator+ this.mainManifestName;
+			
+			getLog().info("Written " + temp);
+			
+			engine.generateManifest(temp, true, this.mainClass);
 		
 			setCurrentDirectory(dirold);
 		} catch(Exception e) {

@@ -69,7 +69,7 @@ public class ZipUtils {
     public void addFile(File lib, DependencyDestination dest) {
         // add file only
        
-           files.put(lib, dest);
+           this.files.put(lib, dest);
 
 
     }
