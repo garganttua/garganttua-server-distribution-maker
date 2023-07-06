@@ -13,10 +13,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
+import com.garganttua.server.core.deployment.artefacts.GGServerApplicationConfiguration;
+import com.garganttua.server.core.execution.GGServerApplicationEngine;
+import com.garganttua.server.core.update.GGServerApplicationDeploymentManager;
 import com.google.common.io.Files;
-import com.gtech.pegasus.core.deployment.artefacts.PGApplicationConfiguration;
-import com.gtech.pegasus.core.execution.PGApplicationEngine;
-import com.gtech.pegasus.core.update.PGApplicationDeploymentManager;
 
 import net.lingala.zip4j.core.ZipFile;
 
@@ -24,7 +24,7 @@ import net.lingala.zip4j.core.ZipFile;
 /**
  */
 @Mojo(name = "bundle", threadSafe = true, requiresDependencyResolution = ResolutionScope.RUNTIME, requiresDependencyCollection = ResolutionScope.RUNTIME)
-public class PGPluginMojo extends AbstractMojo {
+public class GGServerPluginMojo extends AbstractMojo {
 
 	@Parameter(defaultValue = "${project.build.directory}")
 	private File buildDirectory;
@@ -51,7 +51,7 @@ public class PGPluginMojo extends AbstractMojo {
 		ZipUtils zip = new ZipUtils();
 		
 		String[] ext = {"properties"};
-		PGApplicationConfiguration.configurationFileExtensions = ext;
+		GGServerApplicationConfiguration.configurationFileExtensions = ext;
 		
 		List<Dependency> libs = new ArrayList<Dependency>();
 		getLog().info("Build dir " + this.buildDirectory.getAbsolutePath());
@@ -188,8 +188,8 @@ public class PGPluginMojo extends AbstractMojo {
 			String dirold = getCurrentDirectory();
 			setCurrentDirectory(buildDir);
 			
-			PGApplicationDeploymentManager mgr = PGApplicationDeploymentManager.init(confDir, deployDir);
-			PGApplicationEngine engine = PGApplicationEngine.init(mgr, confDir);
+			GGServerApplicationDeploymentManager mgr = GGServerApplicationDeploymentManager.init(confDir, deployDir);
+			GGServerApplicationEngine engine = GGServerApplicationEngine.init(mgr, confDir);
 		
 			engine.readFolder(libDir, false, false);
 			engine.readFolder(confDir, false, false);
