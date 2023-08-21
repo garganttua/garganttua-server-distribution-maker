@@ -21,7 +21,6 @@ jobs:
       with:
         java-version: '18'
         distribution: 'temurin'
-        server-id: github garganttua server distribution maker
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Maven
