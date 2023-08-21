@@ -39,7 +39,7 @@
 		<repository>
 			<id>github garganttua server core</id>
 			<name>github garganttua server core</name>
-			<url>https://maven.pkg.github.com/garganttua/garganttua-core</url>
+			<url>https://maven.pkg.github.com/garganttua/garganttua-server-core</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
