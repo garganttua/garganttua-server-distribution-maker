@@ -1,4 +1,4 @@
-package com.gtech.pegasus.server.bundle.maven.plugin;
+package com.garganttua.server.bundles.maven.plugin;
 
 import java.io.File;
 

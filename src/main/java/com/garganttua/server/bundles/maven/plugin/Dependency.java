@@ -1,4 +1,4 @@
-package com.gtech.pegasus.server.bundle.maven.plugin;
+package com.garganttua.server.bundles.maven.plugin;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugins.annotations.Parameter;
