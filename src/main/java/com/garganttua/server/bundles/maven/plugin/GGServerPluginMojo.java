@@ -57,7 +57,7 @@ public class GGServerPluginMojo extends AbstractMojo {
 		getLog().info("Build dir " + this.buildDirectory.getAbsolutePath());
 
 		for (final Artifact artifact : mavenProject.getArtifacts()) {
-			Dependency e = new Dependency(artifact.getGroupId(), artifact.getArtifactId(), DependencyDestination.none,
+			Dependency e = new Dependency(artifact.getGroupId(), artifact.getArtifactId(), DependencyDestination.none.getString(),
 					artifact.getVersion(), false, artifact);
 
 			for (Dependency econf : this.dependencies) {
@@ -66,7 +66,7 @@ public class GGServerPluginMojo extends AbstractMojo {
 					e.setUnpack(econf.isUnpack());
 					break;
 				} else {
-					e.setDest(DependencyDestination.none);
+					e.setDest(DependencyDestination.none.getString());
 				}
 			}
 			libs.add(e);
@@ -135,49 +135,56 @@ public class GGServerPluginMojo extends AbstractMojo {
 		// Copy the libs
 		for (Dependency lib : libs) {
 			String dir = null;
-			switch (lib.getDest()) {
-			case bin:
-				dir = binDir;
-				break;
-			case binlibs:
-				dir = binlibsDir;
-				break;
-			case conf:
-				dir = confDir;
-				break;
-			case deploy:
-				dir = deployDir;
-				break;
-			case libs:
-				dir = libDir;
-				break;
-			default:
-			case none:
-				continue;
-			}
-			File libf = lib.getArtifact().getFile();
 			
-			File newLib = new File(dir+File.separator+libf.getName());
+			String[] dests = lib.getDest().split(";");
 			
-			try {
-				Files.copy(libf, newLib);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			if( !lib.isUnpack() ) {
-				zip.addFile(newLib, lib.getDest());
-			} else {
-			    String source = newLib.getAbsolutePath();
-			    String destination = dir;
-
-			    try {
-			         ZipFile zipFile = new ZipFile(source);
-			         zipFile.extractAll(destination);
-			         newLib.delete();
-			    } catch (net.lingala.zip4j.exception.ZipException e) {
+			for( String destStr: dests ) {
+				DependencyDestination dest = DependencyDestination.fromString(destStr);
+				
+				switch (dest) {
+				case bin:
+					dir = binDir;
+					break;
+				case binlibs:
+					dir = binlibsDir;
+					break;
+				case conf:
+					dir = confDir;
+					break;
+				case deploy:
+					dir = deployDir;
+					break;
+				case libs:
+					dir = libDir;
+					break;
+				default:
+				case none:
+					continue;
+				}
+				File libf = lib.getArtifact().getFile();
+				
+				File newLib = new File(dir+File.separator+libf.getName());
+				
+				try {
+					Files.copy(libf, newLib);
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
+				}
+				if( !lib.isUnpack() ) {
+					zip.addFile(newLib, DependencyDestination.fromString(lib.getDest()));
+				} else {
+				    String source = newLib.getAbsolutePath();
+				    String destination = dir;
+	
+				    try {
+				         ZipFile zipFile = new ZipFile(source);
+				         zipFile.extractAll(destination);
+				         newLib.delete();
+				    } catch (net.lingala.zip4j.exception.ZipException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -189,7 +196,7 @@ public class GGServerPluginMojo extends AbstractMojo {
 			setCurrentDirectory(buildDir);
 			
 			GGServerApplicationDeploymentManager mgr = GGServerApplicationDeploymentManager.init(confDir, deployDir);
-			GGServerApplicationEngine engine = GGServerApplicationEngine.init(mgr, confDir);
+			GGServerApplicationEngine engine = GGServerApplicationEngine.init(mgr, buildDir);
 		
 			engine.readFolder(libDir, false, false);
 			engine.readFolder(confDir, false, false);

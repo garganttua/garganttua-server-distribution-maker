@@ -26,7 +26,7 @@ public class Dependency implements Comparable<Dependency> {
 	@Setter
 	@Parameter(property = "dest")
 	//exclusion/provided
-	private DependencyDestination dest;
+	private String dest;
 	
 	@Getter
 	@Setter
