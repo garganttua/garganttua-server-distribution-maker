@@ -11,7 +11,7 @@
 			<configuration>
 				<phases>
 					<package>
-						com.garganttua:garganttua-server-distribution-maker:1.0.0:bundle
+						com.garganttua:garganttua-server-distribution-maker:1.0.1:bundle
 					</package>
 					<install>
 						org.apache.maven.plugins:maven-install-plugin:2.4:install
